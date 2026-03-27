@@ -2,7 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Manutenção CE">
+<meta name="theme-color" content="#1a1f2e">
 <title>Painel de Manutenção — Capital Estruturas</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -205,12 +210,61 @@ tbody td{padding:12px 18px;font-size:13px;vertical-align:middle;}
 .toast.error{border-left:3px solid var(--red);}
 .toast.info{border-left:3px solid var(--blue);}
 
+/* ── RESPONSIVO MOBILE ───────────────────────────────── */
 @media(max-width:768px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .main{padding:14px;}header{padding:12px 14px;}
-  .tabs{padding:0 14px;}.search-input{min-width:100%;margin-left:0;}
-  table thead{display:none;}tbody td{display:block;padding:5px 14px;}
-  .hist-item{grid-template-columns:1fr 1fr;}
+  header{padding:10px 14px;gap:8px;}
+  .logo-text h1{font-size:15px;}
+  .logo-text span{font-size:9px;}
+  .logo-icon{width:34px;height:34px;font-size:15px;}
+  .header-right{gap:6px;}
+  .user-chip .urole{display:none;}
+  .btn-ghost{padding:7px 10px;font-size:12px;}
+  .btn-primary{padding:7px 12px;font-size:12px;}
+  .btn-icon{width:34px;height:34px;font-size:14px;}
+  .tabs{padding:0 10px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{padding:10px 14px;font-size:10px;}
+  .main{padding:12px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+  .kpi-card{padding:14px 16px;}
+  .kpi-value{font-size:36px;}
+  .kpi-sub{font-size:10px;}
+  .filters-bar{gap:6px;}
+  .filter-btn{padding:5px 11px;font-size:11px;}
+  .search-input{min-width:100%;margin-left:0;width:100%;}
+  .table-wrap{border-radius:10px;}
+  .table-header-row{padding:12px 16px;}
+  table{display:block;}
+  thead{display:none;}
+  tbody{display:flex;flex-direction:column;gap:0;}
+  tbody tr{display:flex;flex-direction:column;border-bottom:1px solid var(--border);padding:14px 16px;gap:6px;cursor:pointer;}
+  tbody tr:hover{background:var(--steel-light);}
+  tbody td{display:flex;align-items:center;justify-content:space-between;padding:0;font-size:13px;border:none;}
+  tbody td[data-label]::before{content:attr(data-label);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;flex-shrink:0;margin-right:8px;min-width:80px;}
+  .action-btns{gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+  .act-btn{padding:7px 13px;font-size:12px;}
+  .hist-item{grid-template-columns:1fr;gap:8px;padding:14px 16px;}
+  .hist-valor{font-size:26px;}
+  .hist-forn{text-align:left;}
+  .modal-overlay{align-items:flex-end;padding:0;}
+  .modal{width:100% !important;max-width:100% !important;border-radius:20px 20px 0 0;max-height:92vh;padding:22px 18px 30px;animation:slideUpMobile .25s ease;}
+  @keyframes slideUpMobile{from{transform:translateY(100%);}to{transform:translateY(0);}}
+  .modal-close{top:12px;right:12px;font-size:20px;padding:4px 8px;}
+  .form-row{grid-template-columns:1fr !important;}
+  .form-group input,.form-group select,.form-group textarea{padding:11px 12px;font-size:15px;}
+  .modal-footer{flex-direction:column-reverse;gap:10px;}
+  .modal-footer button{width:100%;padding:12px;font-size:14px;}
+  .stab-bar{overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+  .stab-bar::-webkit-scrollbar{display:none;}
+  .cards-grid{grid-template-columns:1fr;}
+  .stab{padding:10px 14px;font-size:10px;}
+  .detail-row{flex-direction:column;gap:4px;padding:10px 0;}
+  .detail-val{text-align:left;max-width:100%;}
+  .toast{left:14px;right:14px;bottom:16px;font-size:13px;}
+  .upload-area{padding:16px;}
+  /* esconde exportar e indicador online no mobile pra não poluir header */
+  .hide-mobile{display:none !important;}
+  #btnExportMobile{display:flex !important;}
 }
 </style>
 </head>
@@ -256,18 +310,19 @@ tbody td{padding:12px 18px;font-size:13px;vertical-align:middle;}
       <span>Capital Estruturas</span>
     </div>
   </div>
-  <div class="header-right">
-    <div style="display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);">
+    <div class="header-right">
+    <div class="hide-mobile" style="display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);">
       <div class="sync-dot"></div>ONLINE
     </div>
     <div class="user-chip">
       <div class="avatar" id="userAvatar"></div>
       <div><div class="uname" id="userName"></div><div class="urole" id="userRole"></div></div>
     </div>
-    <button class="btn-ghost" onclick="exportCSV()">⬇ Exportar</button>
+    <button class="btn-ghost hide-mobile" onclick="exportCSV()">⬇ Exportar</button>
     <button class="btn-primary" onclick="openNewModal()" id="btnNovaOS">+ Nova OS</button>
+    <button class="btn-icon" title="Exportar CSV" onclick="exportCSV()" id="btnExportMobile" style="display:none">⬇</button>
     <button class="btn-icon" title="Configurações" onclick="openSettings()" id="btnSettings">⚙</button>
-    <button class="btn-icon" title="Sair" onclick="doLogout()" style="font-size:13px" title="Sair">↩</button>
+    <button class="btn-icon" title="Sair" onclick="doLogout()" style="font-size:13px">↩</button>
   </div>
 </header>
 
@@ -607,15 +662,15 @@ window.renderTable = () => {
       ?`<button class="act-btn aprovar" onclick="event.stopPropagation();changeStatus('${r.id}','aprovado')">✓</button><button class="act-btn reprovar" onclick="event.stopPropagation();changeStatus('${r.id}','reprovado')">✗</button>${editBtn}`
       :`<button class="act-btn ver" onclick="event.stopPropagation();openDetail('${r.id}')">Ver</button>${encBtn}${editBtn}`;
     return `<tr onclick="openDetail('${r.id}')">
-      <td><span class="id-code">${r.osId||r.id.substring(0,6).toUpperCase()}</span></td>
-      <td><strong>${eqO(r.equipId).nome||'—'}</strong></td>
-      <td><span style="color:var(--text-dim);font-size:12px">${r.setor}</span></td>
-      <td><span class="priority-dot ${r.prio}"></span>${r.prio.charAt(0).toUpperCase()+r.prio.slice(1)}</td>
-      <td style="font-size:12px">${fnO(r.fornId).nome||'—'}</td>
-      <td style="font-size:12px">${rsO(r.respId).nome||'—'}</td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim)">${r.data}</span></td>
-      <td onclick="event.stopPropagation()">${anx}</td>
-      <td><span class="badge ${r.status}">${sLbl(r.status)}</span></td>
+      <td data-label="ID"><span class="id-code">${r.osId||r.id.substring(0,6).toUpperCase()}</span></td>
+      <td data-label="Equipamento"><strong>${eqO(r.equipId).nome||'—'}</strong></td>
+      <td data-label="Setor"><span style="color:var(--text-dim);font-size:12px">${r.setor}</span></td>
+      <td data-label="Prioridade"><span class="priority-dot ${r.prio}"></span>${r.prio.charAt(0).toUpperCase()+r.prio.slice(1)}</td>
+      <td data-label="Fornecedor" style="font-size:12px">${fnO(r.fornId).nome||'—'}</td>
+      <td data-label="Responsável" style="font-size:12px">${rsO(r.respId).nome||'—'}</td>
+      <td data-label="Data"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim)">${r.data}</span></td>
+      <td data-label="Anexos" onclick="event.stopPropagation()">${anx}</td>
+      <td data-label="Status"><span class="badge ${r.status}">${sLbl(r.status)}</span></td>
       <td onclick="event.stopPropagation()"><div class="action-btns">${acoes}</div></td>
     </tr>`;
   }).join('');
